@@ -7,6 +7,8 @@ import com.ihrm.company.Department;
 import com.ihrm.company.ro.DeptListRo;
 import com.ihrm.service.CompanyService;
 import com.ihrm.service.DepartmentService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,6 +18,7 @@ import java.util.List;
 @RestController()
 @RequestMapping("/company")
 public class DepartmentController extends BaseController {
+    private Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
     private DepartmentService departmentService;
@@ -42,6 +45,7 @@ public class DepartmentController extends BaseController {
     @RequestMapping(value = "/department",method = RequestMethod.GET)
     public Result findAll(){
         List<Department> departmentList = departmentService.findAll(super.companyId);
+        logger.info("部门个数：{}",departmentList.size());
         //构造返回结果
         DeptListRo deptListRo = new DeptListRo(companyService.findById(companyId),departmentList);
         return new Result(ResultCode.SUCCESS,deptListRo);

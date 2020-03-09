@@ -17,6 +17,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("company")
+@CrossOrigin
 public class CompanyController {
     /**
      * 服务对象
@@ -97,6 +98,6 @@ public class CompanyController {
     @RequestMapping(value = "", method = RequestMethod.GET)
     public Result findAll() throws Exception {
          List<Company> companyList = companyService.findAll();
-         return new Result(ResultCode.SUCCESS);
+         return new Result(ResultCode.SUCCESS,companyList);
     }
 }
