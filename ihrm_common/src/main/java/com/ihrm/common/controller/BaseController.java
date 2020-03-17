@@ -17,4 +17,12 @@ public class BaseController {
         this.response = response;
         this.companyId = "1";
     }
+
+    public String parseCompanyId(){
+        return companyId;
+    }
+
+    public String parseCompanyName(){
+        return "hzm";
+    }
 }
