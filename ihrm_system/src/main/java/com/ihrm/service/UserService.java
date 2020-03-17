@@ -1,6 +1,7 @@
 package com.ihrm.service;
 
 import com.ihrm.common.utils.IdWorker;
+import com.ihrm.dao.RoleDao;
 import com.ihrm.dao.UserDao;
 import com.ihrm.system.Role;
 import com.ihrm.system.User;
@@ -23,8 +24,8 @@ public class UserService {
     @Autowired
     private UserDao userDao;
 
-    /*@Autowired
-    private RoleDao roleDao;*/
+    @Autowired
+    private RoleDao roleDao;
 
     public User findByMobileAndPassword(String mobile, String password) {
         User user = userDao.findByMobile(mobile);
@@ -36,7 +37,6 @@ public class UserService {
     }
 
     /**
-     *    
      * 添加用户
      **/
     public void save(User user) {
@@ -103,11 +103,11 @@ public class UserService {
         }
     }
 
-   /* *//**
+    /**
      * 分配角色
      * @param userId
      * @param roleIds
-     *//*
+     */
     public void assignRoles(String userId, List<String> roleIds) {
         User user = userDao.findById(userId).get();
         Set<Role> roles = new HashSet<>();
@@ -118,7 +118,7 @@ public class UserService {
         //设置用户和角色之间的关系        
         user.setRoles(roles);
         userDao.save(user);
-    }*/
+    }
 
     /**
      * 动态条件构建

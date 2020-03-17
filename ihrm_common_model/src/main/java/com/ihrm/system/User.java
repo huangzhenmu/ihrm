@@ -93,10 +93,10 @@ public class User implements Serializable {
     private String departmentName;
 
 
-    /*@ManyToMany
+    @ManyToMany
     @JsonIgnore
     @JoinTable(name="pe_user_role",joinColumns={@JoinColumn(name="user_id",referencedColumnName="id")},
             inverseJoinColumns={@JoinColumn(name="role_id",referencedColumnName="id")}
     )
-    private Set<Role> roles = new HashSet<Role>();//用户与角色   多对多*/
+    private Set<Role> roles = new HashSet<Role>();//用户与角色   多对多
 }

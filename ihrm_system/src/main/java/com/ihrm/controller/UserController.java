@@ -14,7 +14,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("sys")
-public class SystemController extends BaseController {
+public class UserController extends BaseController {
     @Autowired
     private UserService userService;
 
@@ -30,6 +30,7 @@ public class SystemController extends BaseController {
     //更新用户
     @RequestMapping(value = "/user/{id}", method = RequestMethod.PUT)
     public Result update(@PathVariable(name = "id") String id, @RequestBody User user) throws Exception {
+        user.setId(id);
         userService.update(user);
         return Result.SUCCESS();
     }
