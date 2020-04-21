@@ -48,8 +48,8 @@ public class RoleController {
      * @return
      * @throws Exception
      */
-    @RequestMapping(value = "/role/{id}", method = RequestMethod.GET)
-    public Result findById(@PathVariable(name = "id") String id) throws Exception {
+    @RequestMapping(value = "/role", method = RequestMethod.GET)
+    public Result findById(@RequestParam(name = "id") String id) throws Exception {
         Role role = roleService.findById(id);
         return new Result(ResultCode.SUCCESS, role);
     }
@@ -63,7 +63,7 @@ public class RoleController {
      * @return
      * @throws Exception
      */
-    @RequestMapping(value = "/role", method = RequestMethod.GET)
+    @RequestMapping(value = "/role/page", method = RequestMethod.GET)
     public Result findByPage(int page, int pagesize, Role role) throws Exception {
         String companyId = "1";
         Page<Role> searchPage = roleService.findSearch(companyId, page, pagesize);
@@ -80,5 +80,12 @@ public class RoleController {
         //3.调用service完成权限分配        
         roleService.assignPerms(roleId, permIds);
         return new Result(ResultCode.SUCCESS);
+    }
+
+    @RequestMapping(value = "/role/list", method = RequestMethod.GET)
+    public Result findAll() throws Exception {
+        String companyId = "1";
+        List<Role> all = roleService.findAll();
+        return new Result(ResultCode.SUCCESS, all);
     }
 }

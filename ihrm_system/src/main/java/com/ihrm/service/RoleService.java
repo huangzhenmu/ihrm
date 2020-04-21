@@ -90,4 +90,8 @@ public class RoleService {
         // 4.更新角色        
         roleDao.save(role);
     }
+
+    public List<Role> findAll(){
+        return roleDao.findAll();
+    }
 }
