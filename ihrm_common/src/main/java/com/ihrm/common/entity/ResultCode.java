@@ -8,7 +8,8 @@ public enum  ResultCode {
     FAIL(false,10001,"操作失败"),
     UNAUTHENTICATED(false,10002,"未登录"),
     UNAUTHORISE(false,10003,"权限不足"),
-    SERVER_ERROR(false,99999,"服务器繁忙");
+    SERVER_ERROR(false,99999,"服务器繁忙"),
+    MOBILEORPASSWORDERROR(false,10004,"手机或密码错误");
     //操作是否成功
     boolean success;
     //操作代码
