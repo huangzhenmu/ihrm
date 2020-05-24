@@ -36,7 +36,7 @@ public class Role implements Serializable {
 
 
     @JsonIgnore
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name="pe_role_permission",
             joinColumns={@JoinColumn(name="role_id",referencedColumnName="id")},
             inverseJoinColumns={@JoinColumn(name="permission_id",referencedColumnName="id")})

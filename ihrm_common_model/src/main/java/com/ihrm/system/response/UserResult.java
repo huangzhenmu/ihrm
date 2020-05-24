@@ -1,7 +1,7 @@
 package com.ihrm.system.response;
 
-import com.ihrm.domain.system.Role;
-import com.ihrm.domain.system.User;
+import com.ihrm.system.Role;
+import com.ihrm.system.User;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.beans.BeanUtils;

@@ -5,6 +5,7 @@ import com.ihrm.dao.RoleDao;
 import com.ihrm.dao.UserDao;
 import com.ihrm.system.Role;
 import com.ihrm.system.User;
+import org.apache.shiro.crypto.hash.Md5Hash;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -44,6 +45,8 @@ public class UserService {
         user.setId(idWorker.nextId() + "");
         user.setPassword("123456");//设置默认登录密码
         user.setEnableState(1);//状态
+        String password = new Md5Hash(user.getPassword(),user.getMobile(),3).toString();//密码，盐，加密次数
+        user.setPassword(password);
         userDao.save(user);
     }
 

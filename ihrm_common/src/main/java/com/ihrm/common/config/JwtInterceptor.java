@@ -14,6 +14,23 @@ import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+/**
+ * 自定义拦截器
+ *      继承HandlerInterceptorAdapter
+ *
+ *      preHandle:进入到控制器方法之前执行的内容
+ *          boolean：
+ *              true：可以继续执行控制器方法
+ *              false：拦截
+ *      posthandler：执行控制器方法之后执行的内容
+ *      afterCompletion：响应结束之前执行的内容
+ *
+ * 1.简化获取token数据的代码编写
+ *      统一的用户权限校验（是否登录）
+ * 2.判断用户是否具有当前访问接口的权限
+ *
+ */
+
 @Component
 public class JwtInterceptor extends HandlerInterceptorAdapter {
     @Autowired

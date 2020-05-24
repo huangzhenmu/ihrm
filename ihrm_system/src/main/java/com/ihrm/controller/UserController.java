@@ -13,12 +13,18 @@ import com.ihrm.system.Role;
 import com.ihrm.system.User;
 import com.ihrm.system.response.ProfileResult;
 import io.jsonwebtoken.Claims;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.apache.shiro.crypto.hash.Md5Hash;
+import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -41,28 +47,20 @@ public class UserController extends BaseController {
     public Result login(@RequestBody Map<String, String> loginMap) {
         String mobile = loginMap.get("mobile");
         String password = loginMap.get("password");
-        User user = userService.findByMobile(mobile);
-        //登录失败
-        if (user == null || !user.getPassword().equals(password)) {
+        try {
+            password = new Md5Hash(password,mobile,3).toString();//密码，盐，加密次数
+            //构造token
+            UsernamePasswordToken token = new UsernamePasswordToken(mobile,password);
+            //获取用户subject
+            Subject subject = SecurityUtils.getSubject();
+            //登录验证 使用自定义的realm验证
+            subject.login(token);
+            //获取sessionId
+            Serializable id = subject.getSession().getId();
+            //返回成功结果
+            return new Result(ResultCode.SUCCESS,id);
+        }catch (Exception e){
             return new Result(ResultCode.MOBILEORPASSWORDERROR);
-        } else {
-            //登录成功
-            // api权限字符串
-            StringBuilder sb = new StringBuilder();
-            //获取到所有的可访问API权限
-            for (Role role : user.getRoles()) {
-                for (Permission perm : role.getPermissions()) {
-                    if (perm.getType() == PermissionConstants.PERMISSION_API) {
-                        sb.append(perm.getCode()).append(",");
-                    }
-                }
-            }
-            Map<String, Object> map = new HashMap<>();
-            map.put("apis", sb.toString());//可访问的api权限字符串
-            map.put("companyId", user.getCompanyId());
-            map.put("companyName", user.getCompanyName());
-            String token = jwtUtils.createJwt(user.getId(), user.getUsername(), map);
-            return new Result(ResultCode.SUCCESS, token);
         }
     }
 
@@ -111,6 +109,7 @@ public class UserController extends BaseController {
     }
 
     //删除用户
+    @RequiresPermissions("API-USER-DELETE")//基于注解的权限控制  只有拥有该权限才可以执行该操作
     @RequestMapping(value = "/user/{id}", method = RequestMethod.DELETE)
     public Result delete(@PathVariable(name = "id") String id) throws Exception {
         userService.delete(id);
