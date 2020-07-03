@@ -1,0 +1,15 @@
+spring:
+  application:
+    name: ihrm-company
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://120.24.146.48:3306/ihrm?useUnicode=true&characterEncoding=utf8
+    username: root
+    password: moyuMySQL666!
+  jpa:
+    database: mysql
+    show-sql: true
+    open-in-view: true
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8

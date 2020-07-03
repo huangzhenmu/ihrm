@@ -44,7 +44,7 @@ public class CompanyController {
      * @param company 实体对象
      * @return 新增结果
      */
-    @PostMapping
+    @PostMapping("/add")
     public Result add(@RequestBody Company company) throws Exception {
         companyService.add(company);
         return Result.SUCCESS();
